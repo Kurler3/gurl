@@ -1,8 +1,8 @@
 package initializers
 
 import (
+	"fmt"
 	"log"
-	"net/http"
 )
 
 func Init() {
@@ -18,11 +18,13 @@ func Init() {
 		log.Fatal(err)
 	}
 
-	// Init map between the method and the handler
-	var methodToHandlerMap = map[string]func(){
-		http.MethodGet: g.MakeGetRequest,
-	}
+	fmt.Println(g)
 
-	// Depending on the method, call the correct function of the Gurl struct.
-	methodToHandlerMap[g.Method]()
+	// // Init map between the method and the handler
+	// var methodToHandlerMap = map[string]func(){
+	// 	http.MethodGet: g.MakeGetRequest,
+	// }
+
+	// // Depending on the method, call the correct function of the Gurl struct.
+	// methodToHandlerMap[g.Method]()
 }

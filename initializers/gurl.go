@@ -1,9 +1,11 @@
 package initializers
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
+	"reflect"
 	"strings"
 
 	"github.com/Kurler3/gurl/parser"
@@ -56,7 +58,26 @@ func InitGurl() (Gurl, error) {
 
 	}
 
+	if g.Url == "" {
+		return g, errors.New("no url specified")
+	}
+
 	return g, nil
+}
+
+func (g Gurl) String() string {
+
+	val := reflect.ValueOf(g)
+	typ := reflect.TypeOf(g)
+
+	result := ""
+
+	for i := range val.NumField() {
+		fieldName := typ.Field(i).Name
+		fieldValue := val.Field(i).Interface()
+		result += fmt.Sprintf("%s: %v\n", fieldName, fieldValue)
+	}
+	return result
 }
 
 func (g *Gurl) MakeGetRequest() {

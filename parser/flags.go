@@ -13,6 +13,7 @@ type FlagParser = map[string]func(string) (string, error)
 
 var flagParser = FlagParser{
 	utils.MethodFlag: ParseMethod,
+	utils.UrlFlag:    ParseUrl,
 }
 
 // Function that parses each cmd arg string.

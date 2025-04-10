@@ -2,7 +2,6 @@ package parser
 
 import (
 	"fmt"
-	"slices"
 	"strings"
 
 	"github.com/Kurler3/gurl/utils"
@@ -35,8 +34,11 @@ func ParseCmdArg(arg string) (flag string, parsedValue string, err error) {
 	}
 
 	// Check if flag is available.
-	if isAvailable := slices.Contains(utils.AVAILABLE_FLAGS, flag); !isAvailable {
-		return "", "", fmt.Errorf("flag \"%v\" is not available. Available flags are: \"%v\"", flag, strings.Join(utils.AVAILABLE_FLAGS, ", "))
+	if _, isAvailable := utils.AVAILABLE_FLAGS[flag]; !isAvailable {
+
+		availableFlagsArr := utils.GetMapKeysAsArray(utils.AVAILABLE_FLAGS)
+
+		return "", "", fmt.Errorf("flag \"%v\" is not available. Available flags are: \"%v\"", flag, strings.Join(availableFlagsArr, ", "))
 	}
 
 	// Check if theres an available parser for this flag.

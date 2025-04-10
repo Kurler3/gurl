@@ -62,6 +62,11 @@ func InitGurl() (Gurl, error) {
 		return g, errors.New("no url specified")
 	}
 
+	// If no method defined, by default assign to GET
+	if g.Method == "" {
+		g.Method = http.MethodGet
+	}
+
 	return g, nil
 }
 

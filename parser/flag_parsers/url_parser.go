@@ -1,10 +1,33 @@
 package flag_parsers
 
-// TODO - Parser of the method flag.
-func ParseUrl(url string) (string, error) {
+import (
+	"errors"
+	"fmt"
+	"net/url"
+	"strings"
 
-	//TODO - Check if is inside the list of available methods.
-	// _, err := url.
+	"github.com/Kurler3/gurl/utils"
+)
 
-	return url, nil
+// Parser of the method flag.
+func ParseUrl(value string) (string, error) {
+
+	urlToCheck := value
+
+	// If no protocol in the url, default to https.
+	if !strings.Contains(urlToCheck, "://") {
+		urlToCheck = utils.HTTPS + "://" + urlToCheck
+	}
+
+	fmt.Println("url to check: ", urlToCheck)
+
+	u, err := url.ParseRequestURI(urlToCheck)
+
+	fmt.Println("Check of url: ", u, err)
+
+	if err != nil || u.Host == "" {
+		return "", errors.New("url is not valid")
+	}
+
+	return value, nil
 }

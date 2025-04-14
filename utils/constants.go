@@ -6,6 +6,9 @@ const (
 	MethodFlag   = "method"
 	UrlFlag      = "url"
 	ProtocolFlag = "protocol"
+
+	HTTP  = "http"
+	HTTPS = "https"
 )
 
 var AVAILABLE_FLAGS = map[string]struct{}{

@@ -3,7 +3,6 @@ package initializers
 import (
 	"fmt"
 	"log"
-	"net/http"
 )
 
 func Init() {
@@ -21,16 +20,16 @@ func Init() {
 
 	fmt.Println(g)
 
-	// Init map between the method and the handler
-	methodToHandlerMap := map[string]func(){
-		http.MethodGet: g.MakeGetRequest,
-	}
+	// // Init map between the method and the handler
+	// methodToHandlerMap := map[string]func(){
+	// 	http.MethodGet: g.MakeGetRequest,
+	// }
 
-	// Depending on the method, call the correct function of the Gurl struct.
-	if handler, ok := methodToHandlerMap[g.Method]; ok {
-		handler()
-	} else {
-		log.Printf("Unsupported HTTP method: %s", g.Method)
-	}
+	// // Depending on the method, call the correct function of the Gurl struct.
+	// if handler, ok := methodToHandlerMap[g.Method]; ok {
+	// 	handler()
+	// } else {
+	// 	log.Printf("Unsupported HTTP method: %s", g.Method)
+	// }
 
 }

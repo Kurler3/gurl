@@ -5,34 +5,15 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"reflect"
-	"strings"
 
+	"github.com/Kurler3/gurl/classes"
 	"github.com/Kurler3/gurl/parser"
-	"github.com/Kurler3/gurl/utils"
+	"github.com/Kurler3/gurl/setter"
 )
 
-type Gurl struct {
-	Url    string
-	Method string
-}
+func InitGurl() (classes.Gurl, error) {
 
-type FlagSetter func(g *Gurl, val string) error
-
-var flagSetters = map[string]FlagSetter{
-	utils.UrlFlag: func(g *Gurl, val string) error {
-		g.Url = val
-		return nil
-	},
-	utils.MethodFlag: func(g *Gurl, val string) error {
-		g.Method = strings.ToUpper(val)
-		return nil
-	},
-}
-
-func InitGurl() (Gurl, error) {
-
-	g := Gurl{}
+	g := classes.Gurl{}
 
 	// Parse the rest of the arguments
 	for i := 1; i < len(os.Args); i++ {
@@ -43,12 +24,7 @@ func InitGurl() (Gurl, error) {
 			return g, err
 		}
 
-		// Assign flag and value to the g struct.
-		flagSetter, ok := flagSetters[flag]
-
-		if !ok {
-			return g, fmt.Errorf("no flag setter found for flag %v", flag)
-		}
+		flagSetter := setter.GetFlagSetter(flag)
 
 		err = flagSetter(&g, value)
 
@@ -58,8 +34,17 @@ func InitGurl() (Gurl, error) {
 
 	}
 
+	//TODO - Should probably put this in a different function.
+	//TODO - Essentially, the final check on the required flags and default assigns.
+
+	//TODO
 	if g.Url == "" {
 		return g, errors.New("no url specified")
+	}
+
+	//TODO If there is no protocol => error
+	if g.Protocol == "" {
+		return g, errors.New("no protocol specified")
 	}
 
 	// If no method defined, by default assign to GET
@@ -69,48 +54,3 @@ func InitGurl() (Gurl, error) {
 
 	return g, nil
 }
-
-func (g Gurl) String() string {
-
-	val := reflect.ValueOf(g)
-	typ := reflect.TypeOf(g)
-
-	result := ""
-
-	for i := range val.NumField() {
-		fieldName := typ.Field(i).Name
-		fieldValue := val.Field(i).Interface()
-		result += fmt.Sprintf("%s: %v\n", fieldName, fieldValue)
-	}
-	return result
-
-}
-
-/////////////////////////////////////////////////////////
-// METHODS //////////////////////////////////////////////
-/////////////////////////////////////////////////////////
-
-// GET
-func (g *Gurl) MakeGetRequest() {
-
-	resp, err := http.Get(g.Url)
-
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Println(resp)
-}
-
-// POST
-
-// PATCH
-
-// DELETE
-
-// PUT
-
-// HEAD
-
-//////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////

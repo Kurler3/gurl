@@ -37,9 +37,17 @@ func ParseCmdArg(arg string) (flag string, parsedValue string, err error) {
 	// Check if flag is available.
 	if _, isAvailable := utils.AVAILABLE_FLAGS[flag]; !isAvailable {
 
-		availableFlagsArr := utils.GetMapKeysAsArray(utils.AVAILABLE_FLAGS)
+		// Check if flag is a short version. If it is, then assign it to be the long version.
+		if _, hasLongVersion := utils.SHORT_FLAG_TO_LONG_FLAG_MAP[flag]; hasLongVersion {
 
-		return "", "", fmt.Errorf("flag \"%v\" is not available. Available flags are: \"%v\"", flag, strings.Join(availableFlagsArr, ", "))
+			flag = utils.SHORT_FLAG_TO_LONG_FLAG_MAP[flag]
+
+		} else {
+			availableFlagsArr := utils.GetMapKeysAsArray(utils.AVAILABLE_FLAGS)
+
+			return "", "", fmt.Errorf("flag \"%v\" is not available. Available flags are: \"%v\"", flag, strings.Join(availableFlagsArr, ", "))
+		}
+
 	}
 
 	// Check if theres an available parser for this flag.

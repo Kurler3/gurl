@@ -3,13 +3,22 @@ package utils
 import "net/http"
 
 const (
-	MethodFlag   = "method"
-	UrlFlag      = "url"
-	ProtocolFlag = "protocol"
+	MethodFlag        = "method"
+	ShortMethodFlag   = "M"
+	UrlFlag           = "url"
+	ShortUrlFlag      = "U"
+	ProtocolFlag      = "protocol"
+	ShortProtocolFlag = "P"
 
 	HTTP  = "http"
 	HTTPS = "https"
 )
+
+var SHORT_FLAG_TO_LONG_FLAG_MAP = map[string]string{
+	ShortMethodFlag:   MethodFlag,
+	ShortUrlFlag:      UrlFlag,
+	ShortProtocolFlag: ProtocolFlag,
+}
 
 var AVAILABLE_FLAGS = map[string]struct{}{
 	UrlFlag:      {},

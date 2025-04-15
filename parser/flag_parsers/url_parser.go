@@ -19,14 +19,20 @@ func ParseUrl(value string) (string, error) {
 		urlToCheck = utils.HTTPS + "://" + urlToCheck
 	}
 
-	fmt.Println("url to check: ", urlToCheck)
-
 	u, err := url.ParseRequestURI(urlToCheck)
 
-	fmt.Println("Check of url: ", u, err)
+	if err != nil {
+		return "", fmt.Errorf("eror while validating url: %v", err)
+	}
 
-	if err != nil || u.Host == "" {
-		return "", errors.New("url is not valid")
+	if u.Scheme != utils.HTTP && u.Scheme != utils.HTTPS {
+		return "", errors.New("url has invalid protocol")
+	}
+
+	host := u.Host
+
+	if host == "" || !strings.Contains(host, ".") {
+		return "", errors.New("invalid host name")
 	}
 
 	return value, nil

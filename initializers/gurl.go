@@ -37,7 +37,6 @@ func InitGurl() (classes.Gurl, error) {
 	//TODO - Should probably put this in a different function.
 	//TODO - Essentially, the final check on the required flags and default assigns.
 
-	//TODO
 	if g.Url == "" {
 		return g, errors.New("no url specified")
 	}

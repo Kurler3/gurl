@@ -6,14 +6,13 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/Kurler3/gurl/classes"
+	"github.com/Kurler3/gurl/classes/gurl"
 	"github.com/Kurler3/gurl/parser"
-	"github.com/Kurler3/gurl/setter"
 )
 
-func InitGurl() (classes.Gurl, error) {
+func InitGurl() (gurl.Gurl, error) {
 
-	g := classes.Gurl{}
+	g := gurl.Gurl{}
 
 	// Parse the rest of the arguments
 	for i := 1; i < len(os.Args); i++ {
@@ -24,9 +23,9 @@ func InitGurl() (classes.Gurl, error) {
 			return g, err
 		}
 
-		flagSetter := setter.GetFlagSetter(flag)
+		//TODO - Use g.SetFlag instead. instead.
 
-		err = flagSetter(&g, value)
+		err = g.SetFlag(flag, value)
 
 		if err != nil {
 			return g, fmt.Errorf("error while setting flag %v: %v", flag, err)

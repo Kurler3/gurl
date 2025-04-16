@@ -1,6 +1,7 @@
 package checks
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/Kurler3/gurl/classes/gurl"
@@ -19,13 +20,39 @@ var DEFAULT_FLAG_VALUES = map[string]string{
 
 func FinalFlagsCheck(g *gurl.Gurl) error {
 
-	//TODO For each flag in the default flag map => set it on the g instance.
+	// For each flag in the default flag map => set it on the g instance.
+	for flag, defaultValue := range DEFAULT_FLAG_VALUES {
 
-	//TODO Check if every required flag is defined.
+		// Get the value for this flag.
+		existingValue, err := g.GetFlag(flag)
+
+		if err != nil {
+			return err
+		}
+
+		// If no value, set the default.
+		if existingValue == "" {
+			g.SetFlag(flag, defaultValue)
+		}
+
+	}
+
+	// Check if every required flag is defined.
+	for flag := range REQUIRED_FLAGS {
+
+		// Get value for flag
+		value, err := g.GetFlag(flag)
+
+		if err != nil {
+			return err
+		}
+
+		// If no value => error
+		if value == "" {
+			return fmt.Errorf("no value defined for required flag %v", flag)
+		}
+
+	}
 
 	return nil
 }
-
-// Have a single function that handles all the final flag checks.
-// 	For each flag that has default values, need to set them. How to access the correct attribute on the g instance?
-//	For each flag in the required flags, we need to check whether they exist.

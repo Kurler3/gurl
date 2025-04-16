@@ -1,6 +1,10 @@
 package utils
 
-import "strings"
+import (
+	"errors"
+	"reflect"
+	"strings"
+)
 
 func GetMapKeysAsArray[K comparable, V any](m map[K]V) []K {
 	keys := make([]K, 0, len(m))
@@ -15,4 +19,30 @@ func CapitalizeFirst(s string) string {
 		return s
 	}
 	return strings.ToUpper(s[:1]) + s[1:]
+}
+
+func FindStructField(
+	s any,
+	fieldName string,
+	checkWhetherCanSet bool,
+	kindToCheck reflect.Kind,
+) (reflect.Value, error) {
+
+	v := reflect.ValueOf(s).Elem()
+
+	field := v.FieldByName(fieldName)
+
+	if !field.IsValid() {
+		return field, errors.New("no such field: " + fieldName)
+	}
+
+	if checkWhetherCanSet && !field.CanSet() {
+		return field, errors.New("cannot set field: " + fieldName)
+	}
+
+	if kindToCheck != reflect.Interface && field.Kind() != kindToCheck {
+		return field, errors.New("unsupported field type")
+	}
+
+	return field, nil
 }

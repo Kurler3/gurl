@@ -1,7 +1,6 @@
 package gurl
 
 import (
-	"errors"
 	"fmt"
 	"net/http"
 	"reflect"
@@ -20,11 +19,32 @@ type Gurl struct {
 // GETTERS & SETTERS ////////////////////////////////////
 /////////////////////////////////////////////////////////
 
-//TODO - Figure out.
+func (g *Gurl) GetFlag(flag string) (interface{}, error) {
+	switch flag {
+	case utils.UrlFlag:
+		return g.Url, nil
+	case utils.MethodFlag:
+		return g.Method, nil
+	default:
+		{
 
-// func (g *Gurl) GetFlag(flag string) error {
+			field, err := utils.FindStructField(
+				g,
+				utils.CapitalizeFirst(flag),
+				false,
+				reflect.String,
+			)
 
-// }
+			if err != nil {
+				return nil, err
+			}
+
+			return field.String(), nil
+
+		}
+	}
+
+}
 
 func (g *Gurl) SetFlag(flag string, value string) error {
 
@@ -70,27 +90,16 @@ func (g *Gurl) SetFlag(flag string, value string) error {
 
 	default:
 		{
-			// Get the reflect.Value of the struct
-			v := reflect.ValueOf(g).Elem()
 
-			// Convert flag to TitleCase (optional, depending on your field names)
-			fieldName := utils.CapitalizeFirst(flag)
+			field, err := utils.FindStructField(
+				g,
+				utils.CapitalizeFirst(flag),
+				true,
+				reflect.String,
+			)
 
-			field := v.FieldByName(fieldName)
-
-			// Check if the field actually exists
-			if !field.IsValid() {
-				return errors.New("no such field: " + fieldName)
-			}
-
-			// Check if can set the field
-			if !field.CanSet() {
-				return errors.New("cannot set field: " + fieldName)
-			}
-
-			// Check if the type of the field is string
-			if field.Kind() != reflect.String {
-				return errors.New("unsupported field type: only string is supported")
+			if err != nil {
+				return err
 			}
 
 			// Set the field.

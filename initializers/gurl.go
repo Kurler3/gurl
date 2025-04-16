@@ -1,11 +1,10 @@
 package initializers
 
 import (
-	"errors"
 	"fmt"
-	"net/http"
 	"os"
 
+	"github.com/Kurler3/gurl/checks"
 	"github.com/Kurler3/gurl/classes/gurl"
 	"github.com/Kurler3/gurl/parser"
 )
@@ -23,8 +22,6 @@ func InitGurl() (gurl.Gurl, error) {
 			return g, err
 		}
 
-		//TODO - Use g.SetFlag instead. instead.
-
 		err = g.SetFlag(flag, value)
 
 		if err != nil {
@@ -33,21 +30,10 @@ func InitGurl() (gurl.Gurl, error) {
 
 	}
 
-	//TODO - Should probably put this in a different function.
-	//TODO - Essentially, the final check on the required flags and default assigns.
+	err := checks.FinalFlagsCheck(&g)
 
-	if g.Url == "" {
-		return g, errors.New("no url specified")
-	}
-
-	//TODO If there is no protocol => error
-	if g.Protocol == "" {
-		return g, errors.New("no protocol specified")
-	}
-
-	// If no method defined, by default assign to GET
-	if g.Method == "" {
-		g.Method = http.MethodGet
+	if err != nil {
+		return g, err
 	}
 
 	return g, nil

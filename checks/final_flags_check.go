@@ -2,26 +2,15 @@ package checks
 
 import (
 	"fmt"
-	"net/http"
 
 	"github.com/Kurler3/gurl/classes/gurl"
 	"github.com/Kurler3/gurl/utils"
 )
 
-var REQUIRED_FLAGS = map[string]struct{}{
-	utils.UrlFlag:    {},
-	utils.MethodFlag: {},
-}
-
-var DEFAULT_FLAG_VALUES = map[string]string{
-	utils.MethodFlag:   http.MethodGet,
-	utils.ProtocolFlag: utils.HTTPS,
-}
-
 func FinalFlagsCheck(g *gurl.Gurl) error {
 
 	// For each flag in the default flag map => set it on the g instance.
-	for flag, defaultValue := range DEFAULT_FLAG_VALUES {
+	for flag, defaultValue := range utils.DEFAULT_FLAG_VALUES {
 
 		// Get the value for this flag.
 		existingValue, err := g.GetFlag(flag)
@@ -38,7 +27,7 @@ func FinalFlagsCheck(g *gurl.Gurl) error {
 	}
 
 	// Check if every required flag is defined.
-	for flag := range REQUIRED_FLAGS {
+	for flag := range utils.REQUIRED_FLAGS {
 
 		// Get value for flag
 		value, err := g.GetFlag(flag)
@@ -53,6 +42,8 @@ func FinalFlagsCheck(g *gurl.Gurl) error {
 		}
 
 	}
+
+	//TODO Depending on the method, the body might not be available, or other flags might also not be available.
 
 	return nil
 }

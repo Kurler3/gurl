@@ -31,7 +31,7 @@ func ParseUrl(value string) (string, error) {
 
 	host := u.Host
 
-	if host == "" || !strings.Contains(host, ".") {
+	if host == "" || (!strings.Contains(host, ".") && !strings.Contains(host, "localhost")) {
 		return "", errors.New("invalid host name")
 	}
 

@@ -81,7 +81,7 @@ func (g *Gurl) SetFlag(flag string, value any) error {
 			g.Protocol = protocolInUrl
 
 			// Strip the protocol from the url and save it.
-			urlWithoutProtocol := strings.TrimPrefix(value.(string), protocolInUrl)
+			urlWithoutProtocol := strings.TrimPrefix(value.(string), protocolInUrl+"://")
 
 			// Set the url without protocol.
 			g.Url = urlWithoutProtocol

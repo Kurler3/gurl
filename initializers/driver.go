@@ -18,7 +18,11 @@ func Init() {
 	}
 
 	if g.Verbose {
-		fmt.Printf("Request data: \n%v", g)
+
+		fmt.Println("------------------------------")
+		fmt.Println("-------- Request data --------")
+		fmt.Println("------------------------------")
+		fmt.Println("\n", g)
 	}
 
 	// Init map between the method and the handler

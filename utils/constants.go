@@ -30,6 +30,7 @@ var AVAILABLE_FLAGS = map[string]struct{}{
 	UrlFlag:      {},
 	MethodFlag:   {},
 	ProtocolFlag: {},
+	HeadersFlag:  {},
 }
 
 var AVAILABLE_METHODS = map[string]struct{}{

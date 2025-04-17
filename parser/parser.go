@@ -9,13 +9,12 @@ import (
 )
 
 // Init a map between the cmd arg flag and the function that parses that flag
-type FlagParser = map[string]func(string) (string, error)
-
-//TODO - Find a way to do this without modifying the return type of the other parsers to any.
+type FlagParser = map[string]func(string) (any, error)
 
 var flagParser = FlagParser{
-	utils.MethodFlag: flag_parsers.ParseMethod,
-	utils.UrlFlag:    flag_parsers.ParseUrl,
+	utils.MethodFlag:  ParserWrapper(flag_parsers.ParseMethod),
+	utils.UrlFlag:     ParserWrapper(flag_parsers.ParseUrl),
+	utils.HeadersFlag: ParserWrapper(flag_parsers.ParseHeaders),
 }
 
 // Function that parses each cmd arg string.

@@ -45,5 +45,7 @@ func FinalFlagsCheck(g *gurl.Gurl) error {
 
 	//TODO Depending on the method, the body might not be available, or other flags might also not be available.
 
+	//TODO - Any warnings for any flags, like SkipTLSVerification
+
 	return nil
 }

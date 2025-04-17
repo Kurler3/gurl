@@ -1,21 +1,24 @@
 package gurl
 
 import (
+	"crypto/tls"
 	"fmt"
 	"net/http"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/Kurler3/gurl/response"
 	"github.com/Kurler3/gurl/utils"
 )
 
 type Gurl struct {
-	Url      string
-	Method   string
-	Protocol string
-	Verbose  bool
-	Headers  map[string]string
+	Url                 string
+	Method              string
+	Protocol            string
+	Verbose             bool
+	Headers             map[string]string
+	SkipTLSVerification bool
 }
 
 /////////////////////////////////////////////////////////
@@ -145,6 +148,17 @@ func (g Gurl) String() string {
 // GET
 func (g *Gurl) MakeGetRequest() {
 
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{
+			InsecureSkipVerify: g.SkipTLSVerification,
+		},
+		MaxIdleConns:       10,
+		IdleConnTimeout:    30 * time.Second, //TODO - Change if timeout is specified.
+		DisableCompression: true,
+	}
+
+	client := &http.Client{Transport: tr}
+
 	url := g.Protocol + "://" + g.Url
 
 	// Create a new req.
@@ -160,7 +174,7 @@ func (g *Gurl) MakeGetRequest() {
 	}
 
 	// Send request
-	res, err := http.DefaultClient.Do(req)
+	res, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Error making request:", err)
 		return

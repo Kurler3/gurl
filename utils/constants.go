@@ -15,6 +15,8 @@ const (
 	ShortHeadersFlag         = "H"
 	SkipTLSVerification      = "skipTLSVerification"
 	ShortSkipTLSVerification = "K"
+	OutputFlag               = "output"
+	ShortOutputFlag          = "O"
 
 	HTTP  = "http"
 	HTTPS = "https"
@@ -27,6 +29,7 @@ var SHORT_FLAG_TO_LONG_FLAG_MAP = map[string]string{
 	ShortVerboseFlag:         VerboseFlag,
 	ShortHeadersFlag:         HeadersFlag,
 	ShortSkipTLSVerification: SkipTLSVerification,
+	ShortOutputFlag:          OutputFlag,
 }
 
 var AVAILABLE_FLAGS = map[string]struct{}{
@@ -35,6 +38,7 @@ var AVAILABLE_FLAGS = map[string]struct{}{
 	ProtocolFlag:        {},
 	HeadersFlag:         {},
 	SkipTLSVerification: {},
+	OutputFlag:          {},
 }
 
 var AVAILABLE_METHODS = map[string]struct{}{

@@ -19,6 +19,7 @@ type Gurl struct {
 	Verbose             bool
 	Headers             map[string]string
 	SkipTLSVerification bool
+	Output              string
 }
 
 /////////////////////////////////////////////////////////
@@ -180,7 +181,7 @@ func (g *Gurl) MakeGetRequest() {
 		return
 	}
 
-	response.PrintResponse(res, g.Verbose)
+	response.PrintResponse(res, g.Verbose, g.Output)
 }
 
 // POST

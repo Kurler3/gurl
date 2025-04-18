@@ -1,0 +1,21 @@
+---------------------------------------
+---------- RESPONSE DATA --------------
+---------------------------------------
+Status: 200 OK
+Headers:
+  X-Powered-By: [Express]
+
+  Content-Type: [text/html; charset=utf-8]
+
+  Content-Length: [25]
+
+  Etag: [W/"19-fs/+M9rLwVMKTKs+/frqhyB2jaY"]
+
+  Date: [Fri, 18 Apr 2025 08:58:48 GMT]
+
+  Connection: [keep-alive]
+
+  Keep-Alive: [timeout=5]
+
+Body:
+🚀 Fake API is running!

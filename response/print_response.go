@@ -7,12 +7,13 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/Kurler3/gurl/classes/gurl"
 )
 
 func PrintResponse(
 	res *http.Response,
-	verbose bool,
-	outputPath string,
+	g *gurl.Gurl,
 ) {
 
 	// Init a string builder
@@ -23,7 +24,12 @@ func PrintResponse(
 		output.WriteString(s + "\n")
 	}
 
-	// Init function to write a line.
+	if g.Verbose {
+		writeLine("------------------------------")
+		writeLine("-------- Request data --------")
+		writeLine("------------------------------")
+		writeLine(fmt.Sprintf("%v", *g))
+	}
 
 	writeLine("---------------------------------------")
 	writeLine("---------- RESPONSE DATA --------------")
@@ -34,7 +40,7 @@ func PrintResponse(
 		return
 	}
 
-	if verbose {
+	if g.Verbose {
 
 		// Status line
 		writeLine(fmt.Sprintf("Status: %v", res.Status))
@@ -60,11 +66,11 @@ func PrintResponse(
 	writeLine(string(bodyBytes))
 
 	// If defined an output path
-	if outputPath != "" {
+	if g.Output != "" {
 
 		// Make the dirs until the file.
 		//?? 0755: 7 for owner (r+w+x), 5 (r+x) for groups and others
-		err = os.MkdirAll(filepath.Dir(outputPath), 0755)
+		err = os.MkdirAll(filepath.Dir(g.Output), 0755)
 		if err != nil {
 			fmt.Println("Failed to create directories:", err)
 			return
@@ -72,13 +78,13 @@ func PrintResponse(
 
 		// Write to the file, and create it if it wasn't yet
 		//?? 644: 6 (r+w), 4 (r)
-		err = os.WriteFile(outputPath, []byte(output.String()), 0644)
+		err = os.WriteFile(g.Output, []byte(output.String()), 0644)
 		if err != nil {
 			fmt.Println("Failed to write response to file:", err)
 			return
 		}
 
-		fmt.Println("Full response written to:", outputPath)
+		fmt.Println("Full response written to:", g.Output)
 	}
 
 }

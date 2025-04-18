@@ -1,9 +1,9 @@
 package initializers
 
 import (
-	"fmt"
 	"log"
-	"net/http"
+
+	"github.com/Kurler3/gurl/requests"
 )
 
 func Init() {
@@ -17,26 +17,6 @@ func Init() {
 		log.Fatal(err)
 	}
 
-	if g.Verbose {
-
-		fmt.Println("------------------------------")
-		fmt.Println("-------- Request data --------")
-		fmt.Println("------------------------------")
-		fmt.Println("\n", g)
-	}
-
-	// Init map between the method and the handler
-	methodToHandlerMap := map[string]func(){
-		http.MethodGet: g.MakeGetRequest,
-	}
-
-	// Depending on the method, call the correct function of the Gurl struct.
-	if handler, ok := methodToHandlerMap[g.Method]; ok {
-		handler()
-		return
-	}
-
-	// If no handler found.
-	log.Printf("Unsupported HTTP method: %s", g.Method)
-
+	// Make the request.
+	requests.MakeRequest(&g)
 }

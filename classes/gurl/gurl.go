@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
+	"time"
 
 	"github.com/Kurler3/gurl/utils"
 )
@@ -16,6 +17,8 @@ type Gurl struct {
 	Headers             map[string]string
 	SkipTLSVerification bool
 	Output              string
+	Timeout             time.Duration
+	Data                string
 }
 
 /////////////////////////////////////////////////////////

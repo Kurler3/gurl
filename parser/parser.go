@@ -15,6 +15,7 @@ var flagParser = FlagParser{
 	utils.MethodFlag:  ParserWrapper(flag_parsers.ParseMethod),
 	utils.UrlFlag:     ParserWrapper(flag_parsers.ParseUrl),
 	utils.HeadersFlag: ParserWrapper(flag_parsers.ParseHeaders),
+	utils.TimeoutFlag: ParserWrapper(flag_parsers.ParseTimeout),
 }
 
 // Function that parses each cmd arg string.
@@ -71,7 +72,10 @@ func ParseCmdArg(arg string) (string, any, error) {
 		return flag, splitArg[1], nil
 	}
 
-	parsedValue, errorWhileParsing := parserFn(splitArg[1])
+	// Join the value again (could be split by = if there was any)
+	value := strings.Join(splitArg[1:], "=")
+
+	parsedValue, errorWhileParsing := parserFn(value)
 
 	if errorWhileParsing != nil {
 		return "", "", fmt.Errorf("error: \"%v\" while parsing value \"%v\" for flag \"%v\"", errorWhileParsing, splitArg[1], flag)

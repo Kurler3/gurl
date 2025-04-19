@@ -1,20 +1,19 @@
 package requests
 
 import (
-	"log"
-	"net/http"
+	"fmt"
 
 	"github.com/Kurler3/gurl/classes/gurl"
 )
 
-var methodToHandlerMap = map[string]func(g *gurl.Gurl){
-	http.MethodGet: MakeGetRequest,
-}
-
 func MakeRequest(g *gurl.Gurl) {
-	if handler, ok := methodToHandlerMap[g.Method]; ok {
-		handler(g)
+
+	client, req, err := GetReqAndCLient(g)
+
+	if err != nil {
+		fmt.Println("Error setting up request:", err)
 		return
 	}
-	log.Printf("Unsupported HTTP Method: %s", g.Method)
+
+	MakeRequestWithClient(client, req, g)
 }

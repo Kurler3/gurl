@@ -2,8 +2,10 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 	"reflect"
 	"strings"
+	"time"
 )
 
 func GetMapKeysAsArray[K comparable, V any](m map[K]V) []K {
@@ -45,4 +47,18 @@ func FindStructField(
 	}
 
 	return field, nil
+}
+
+func WithTimer(
+	fn func(),
+) {
+	start := time.Now()
+
+	fn()
+
+	now := time.Now()
+
+	elapsed := now.Sub(start).Seconds()
+
+	fmt.Printf("This function took %.2f seconds.", elapsed)
 }

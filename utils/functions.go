@@ -51,7 +51,7 @@ func FindStructField(
 
 func WithTimer(
 	fn func(),
-) {
+) float64 {
 	start := time.Now()
 
 	fn()
@@ -61,4 +61,6 @@ func WithTimer(
 	elapsed := now.Sub(start).Seconds()
 
 	fmt.Printf("This function took %.2f seconds.", elapsed)
+
+	return elapsed
 }

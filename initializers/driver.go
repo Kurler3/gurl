@@ -21,24 +21,27 @@ func Init() {
 	// If benchmark mode
 	if g.Benchmark {
 
+		var sum_elapsed_time float64
+
+		fmt.Println("g.RequestsCount: ", g.RequestsCount)
+
 		// Make 10 requests.
-		//TODO - Should be able to choose how many.
-		for i := range 10 {
+		for i := range g.RequestsCount {
 
-			elapsed := requests.MakeRequest(&g)
+			elapsed := requests.MakeRequest(&g, fmt.Sprintf("request number %v", i))
 
-			fmt.Printf("Request number %v took %.2f seconds.\n", i, elapsed)
-
+			sum_elapsed_time += elapsed
 		}
 
-		//TODO - Display some sort of average time and statistics and stuff based on all the times.
+		avg_time := sum_elapsed_time / float64(g.RequestsCount)
+
+		//TODO
+		fmt.Printf("Average time for the requests is: %.2f \n", avg_time)
 
 		return
 
 	}
 
-	elapsed := requests.MakeRequest(&g)
-
-	fmt.Printf("Request took %.2f seconds.\n", elapsed)
-
+	// Make a normal request.
+	requests.MakeRequest(&g, "")
 }

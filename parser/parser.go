@@ -12,10 +12,11 @@ import (
 type FlagParser = map[string]func(string) (any, error)
 
 var flagParser = FlagParser{
-	utils.MethodFlag:  ParserWrapper(flag_parsers.ParseMethod),
-	utils.UrlFlag:     ParserWrapper(flag_parsers.ParseUrl),
-	utils.HeadersFlag: ParserWrapper(flag_parsers.ParseHeaders),
-	utils.TimeoutFlag: ParserWrapper(flag_parsers.ParseTimeout),
+	utils.MethodFlag:        ParserWrapper(flag_parsers.ParseMethod),
+	utils.UrlFlag:           ParserWrapper(flag_parsers.ParseUrl),
+	utils.HeadersFlag:       ParserWrapper(flag_parsers.ParseHeaders),
+	utils.TimeoutFlag:       ParserWrapper(flag_parsers.ParseTimeout),
+	utils.RequestsCountFlag: ParserWrapper(flag_parsers.ParseRequestsCount),
 }
 
 // Function that parses each cmd arg string.

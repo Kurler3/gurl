@@ -20,6 +20,7 @@ type Gurl struct {
 	Timeout             time.Duration
 	Data                string
 	Benchmark           bool
+	RequestsCount       int
 }
 
 /////////////////////////////////////////////////////////

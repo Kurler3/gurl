@@ -6,7 +6,10 @@ import (
 	"github.com/Kurler3/gurl/classes/gurl"
 )
 
-func MakeRequest(g *gurl.Gurl) float64 {
+func MakeRequest(
+	g *gurl.Gurl,
+	requestTitle string,
+) float64 {
 
 	client, req, err := GetReqAndCLient(g)
 
@@ -15,5 +18,5 @@ func MakeRequest(g *gurl.Gurl) float64 {
 		return 0
 	}
 
-	return MakeRequestWithClient(client, req, g)
+	return MakeRequestWithClient(client, req, g, requestTitle)
 }

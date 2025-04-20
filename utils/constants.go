@@ -24,8 +24,10 @@ const (
 	ShortTimeoutFlag         = "T"
 	DataFlag                 = "data"
 	ShortDataFlag            = "D"
-	BenchmarkFlag            = "branchmark"
+	BenchmarkFlag            = "benchmark"
 	ShortBenchmarkFlag       = "B"
+	RequestsCountFlag        = "requestsCount"
+	ShortRequestsCountFlag   = "R"
 
 	HTTP  = "http"
 	HTTPS = "https"
@@ -42,6 +44,7 @@ var SHORT_FLAG_TO_LONG_FLAG_MAP = map[string]string{
 	ShortTimeoutFlag:         TimeoutFlag,
 	ShortDataFlag:            DataFlag,
 	ShortBenchmarkFlag:       BenchmarkFlag,
+	ShortRequestsCountFlag:   RequestsCountFlag,
 }
 
 var AVAILABLE_FLAGS = map[string]struct{}{
@@ -54,6 +57,7 @@ var AVAILABLE_FLAGS = map[string]struct{}{
 	TimeoutFlag:         {},
 	DataFlag:            {},
 	BenchmarkFlag:       {},
+	RequestsCountFlag:   {},
 }
 
 var AVAILABLE_METHODS = map[string]struct{}{
@@ -77,6 +81,7 @@ var DEFAULT_FLAG_VALUES = map[string]any{
 	HeadersFlag:         map[string]string{},
 	TimeoutFlag:         1000 * time.Hour,
 	BenchmarkFlag:       false,
+	RequestsCountFlag:   10,
 }
 
 var BOOL_FLAGS = map[string]struct{}{

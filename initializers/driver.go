@@ -1,7 +1,6 @@
 package initializers
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/Kurler3/gurl/requests"
@@ -20,26 +19,8 @@ func Init() {
 
 	// If benchmark mode
 	if g.Benchmark {
-
-		var sum_elapsed_time float64
-
-		fmt.Println("g.RequestsCount: ", g.RequestsCount)
-
-		// Make 10 requests.
-		for i := range g.RequestsCount {
-
-			elapsed := requests.MakeRequest(&g, fmt.Sprintf("request number %v", i))
-
-			sum_elapsed_time += elapsed
-		}
-
-		avg_time := sum_elapsed_time / float64(g.RequestsCount)
-
-		//TODO
-		fmt.Printf("Average time for the requests is: %.2f \n", avg_time)
-
+		requests.MakeBenchmarkedRequests(&g)
 		return
-
 	}
 
 	// Make a normal request.

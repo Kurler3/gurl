@@ -20,7 +20,7 @@ func FinalFlagsCheck(g *gurl.Gurl) error {
 		}
 
 		// If no value, set the default.
-		if existingValue == "" {
+		if utils.IsEmpty(existingValue) {
 			g.SetFlag(flag, defaultValue)
 		}
 
@@ -37,15 +37,28 @@ func FinalFlagsCheck(g *gurl.Gurl) error {
 		}
 
 		// If no value => error
-		if value == "" {
+		if utils.IsEmpty(value) {
 			return fmt.Errorf("no value defined for required flag %v", flag)
 		}
 
 	}
 
-	//TODO Depending on the method, the body might not be available, or other flags might also not be available.
+	// Any warnings for any flags, like SkipTLSVerification
+	for _, flagWarning := range utils.FLAG_WARNINGS {
 
-	//TODO - Any warnings for any flags, like SkipTLSVerification
+		// Get the flag value.
+		flagValue, err := g.GetFlag(flagWarning.Flag)
+
+		if err != nil {
+			return err
+		}
+
+		// Compare to the conditional value and display the warning if it matches.
+		if flagValue == flagWarning.ConditionalValue {
+			fmt.Printf("Warning for flag '%v': %v\n", flagWarning.Flag, flagWarning.Warning)
+		}
+
+	}
 
 	return nil
 }

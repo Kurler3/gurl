@@ -76,7 +76,7 @@ var REQUIRED_FLAGS = map[string]struct{}{
 var DEFAULT_FLAG_VALUES = map[string]any{
 	MethodFlag:          http.MethodGet,
 	ProtocolFlag:        HTTPS,
-	VerboseFlag:         true,
+	VerboseFlag:         false,
 	SkipTLSVerification: false,
 	HeadersFlag:         map[string]string{},
 	TimeoutFlag:         1000 * time.Hour,
@@ -91,4 +91,18 @@ var BOOL_FLAGS = map[string]struct{}{
 	ShortSkipTLSVerification: {},
 	BenchmarkFlag:            {},
 	ShortBenchmarkFlag:       {},
+}
+
+type FlagWarning struct {
+	ConditionalValue any
+	Flag             string
+	Warning          string
+}
+
+var FLAG_WARNINGS = []FlagWarning{
+	{
+		ConditionalValue: true,
+		Flag:             SkipTLSVerification,
+		Warning:          "Skipping TLS verification opens you up to potential man-in-the-middle attacks.",
+	},
 }

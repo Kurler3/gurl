@@ -45,11 +45,17 @@ func MakeRequestWithClient(
 			fmt.Println("Failed to create directories:", err)
 		}
 
-		// Write to the file, and create it if it wasn't yet
-		//?? 644: 6 (r+w), 4 (r)
-		err = os.WriteFile(g.Output, []byte(output.String()), 0644)
+		// Open the file in append mode. If it doesn't exist, create it.
+		f, err := os.OpenFile(g.Output, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 		if err != nil {
 			fmt.Println("Failed to write response to file:", err)
+		}
+		defer f.Close()
+
+		_, err = f.Write([]byte(output.String()))
+
+		if err != nil {
+			fmt.Printf("Error writing response to file: %v", err)
 		}
 
 		fmt.Println("Full response written to:", g.Output)
